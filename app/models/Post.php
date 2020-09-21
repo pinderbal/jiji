@@ -48,4 +48,28 @@ class Post{
 				return false;
 			}
 		}
+
+		public function updatePost($data){
+			$this->db->query('UPDATE books 
+							SET title = :title,
+							  	author = :author,
+							  	description = :description,
+							  	book_condition = :book_condition,
+							  	book_price = :book_price
+							WHERE id_books = :id_books');
+			//Bind values
+			$this->db->bind(':id_books', $data['id_books']);
+			$this->db->bind(':title', $data['title']);
+			$this->db->bind(':author', $data['author']);
+			$this->db->bind(':description', $data['description']);
+			$this->db->bind(':book_condition', $data['condition']);
+			$this->db->bind(':book_price', $data['price']);
+
+			// Execute
+			if($this->db->execute()){
+				return true;
+			}else{
+				return false;
+			}
+		}
 	}

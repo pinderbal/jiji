@@ -108,4 +108,81 @@
 				$this->view('posts/add', $data);
 			}
 		}
+
+		public function edit($id){
+			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+				$data = [
+					'id_books' => $id,
+					'title' => $_POST['title'],
+					'author' => $_POST['author'],
+					'description' => $_POST['description'],
+					'condition' => $_POST['condition'],
+					'price' => $_POST['price'],
+					'title_error' => '',
+					'author_error' => '',
+					'description_error' => '',
+					'condition_error' => '',
+					'price_error' => ''
+				];
+
+				if (empty($data['title'])){
+					$data['title_error'] = 'Please enter a title.';
+				}elseif(strlen($data['title']) < 6) {
+					$data['title_error'] = 'Title must be greater than 6 characters';
+				}
+
+				if (empty($data['author'])){
+					$data['author_error'] = 'Please enter an author.';
+				}elseif(strlen($data['author']) < 4) {
+					$data['author_error'] = 'Password must be greater than 4 characters';
+				}
+
+				if (empty($data['description'])){
+					$data['description_error'] = 'Please enter a description.';
+				}elseif(strlen($data['description']) < 6) {
+					$data['description_error'] = 'Password must be greater than 6 characters';
+				}
+
+				if (empty($data['condition'])){
+					$data['condition_error'] = 'Please select book condition.';
+				}
+
+				if (empty($data['price'])){
+					$data['price_error'] = 'Please enter a price';
+				}
+
+				if (empty($data['title_error']) && empty($data['author_error']) & empty($data['description_error']) && empty($data['condition_error']) && empty($data['price_error'])){
+					if($this->postModel->updatePost($data)){
+						redirect('/posts/listings');
+					}else{
+						die('Something went wrong');
+					}
+
+				}else{
+					$this->view('posts/edit', $data);
+				}
+			}else{
+				$post = $this->postModel->getPostById($id);
+
+				//check if user is same as post author
+				if($post->books_user_id != $_SESSION['user_id']){
+					redirect('index');
+				}
+
+				$data = [
+					'id_books' => $post->id_books,
+					'title' => $post->title,
+					'author' => $post->author,
+					'description' => $post->description,
+					'condition' => $post->book_condition,
+					'price' => $post->book_price,
+					'title_error' => '',
+					'author_error' => '',
+					'description_error' => '',
+					'price_error' => ''
+				]; 
+				$this->view('posts/edit', $data);
+			}
+		}
 	}
