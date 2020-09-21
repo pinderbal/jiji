@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav ml-auto">
       <?php if(isset($_SESSION['user_id'])) : ?>
-        <a class="nav-item nav-link" href="#">Listings <span class="sr-only"></span></a>
+        <a class="nav-item nav-link" href="<?= URLROOT ?>/posts/listings">Listings <span class="sr-only"></span></a>
         <a class="nav-item nav-link" href="<?= URLROOT ?>/users/logout">Logout <span class="sr-only"></span></a>
       <?php else : ?>
         <a class="nav-item nav-link" href="<?= URLROOT ?>/users/login">Login <span class="sr-only"></span></a>

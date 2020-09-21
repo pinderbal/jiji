@@ -29,4 +29,23 @@ class Post{
 			$results = $this->db->single();
 			return $results;
 		}
+
+		public function addPost($data){
+			$this->db->query('INSERT INTO books (books_user_id, title, author, description, book_condition, book_price)
+							  VALUES (:books_user_id, :title, :author, :description, :book_condition, :book_price)');
+			//Bind values
+			$this->db->bind(':books_user_id', $_SESSION['user_id']);
+			$this->db->bind(':title', $data['title']);
+			$this->db->bind(':author', $data['author']);
+			$this->db->bind(':description', $data['description']);
+			$this->db->bind(':book_condition', $data['condition']);
+			$this->db->bind(':book_price', $data['price']);
+
+			// Execute
+			if($this->db->execute()){
+				return true;
+			}else{
+				return false;
+			}
+		}
 	}
