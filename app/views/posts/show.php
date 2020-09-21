@@ -1,0 +1,2 @@
+
+<?= $data['post']->title; ?>
