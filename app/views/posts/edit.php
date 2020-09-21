@@ -25,11 +25,11 @@
 						<label for="condition">Choose a book condition:</label>
 						<select name="condition" id="condition" class="form-control form-control-lg <?= (!empty($data['condition_error'])) ? 'is-invalid' : ''; ?>">
 							<option value="">Select One</option>
-							<option value="New" <?php echo (isset($_POST['condition']) && $_POST['condition'] == 'new') ? 'selected="selected"' : ''; ?>>New</option>
-						    <option value="Used - Like New" <?php echo (isset($_POST['condition']) && $_POST['condition'] == 'used-n') ? 'selected="selected"' : ''; ?>>Used - Like New</option>
-						    <option value="Used - Very Good" <?php echo (isset($_POST['condition']) && $_POST['condition'] == 'used-vg') ? 'selected="selected"' : ''; ?>>Used - Very Good</option>
-						    <option value="Used - Good" <?php echo (isset($_POST['condition']) && $_POST['condition'] == 'used-g') ? 'selected="selected"' : ''; ?>>Used - Good</option>
-						    <option value="Used - Acceptable" <?php echo (isset($_POST['condition']) && $_POST['condition'] == 'used-a') ? 'selected="selected"' : ''; ?>>Used - Acceptable</option>
+							<option value="New" <?php echo (isset($data['condition']) && $data['condition'] == 'New') ? 'selected="selected"' : ''; ?>>New</option>
+						    <option value="Used - Like New" <?php echo (isset($data['condition']) && $data['condition'] == 'Used - Like New') ? 'selected="selected"' : ''; ?>>Used - Like New</option>
+						    <option value="Used - Very Good" <?php echo (isset($data['condition']) && $data['condition'] == 'Used - Very Good') ? 'selected="selected"' : ''; ?>>Used - Very Good</option>
+						    <option value="Used - Good" <?php echo (isset($data['condition']) && $data['condition'] == 'Used - Good') ? 'selected="selected"' : ''; ?>>Used - Good</option>
+						    <option value="Used - Acceptable" <?php echo (isset($data['condition']) && $data['condition'] == 'Used - Acceptable') ? 'selected="selected"' : ''; ?>>Used - Acceptable</option>
 						</select>
 						<span class="invalid-feedback"><?= $data['condition_error']; ?></span>
 					</div>
