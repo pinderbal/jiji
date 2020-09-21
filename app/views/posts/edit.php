@@ -2,7 +2,7 @@
 <div class="row">
 		<div class="col-md-6 mx-auto">
 			<div class="card card-body bg-light mt-5">
-				<h2>Create new ad</h2>
+				<h2>Edit <?= $data['title'] ?></h2>
 				<p>Please fill all of the following fields: </p>
 				
 				<form action="<?= URLROOT; ?>/posts/edit/<?php echo $data['id_books']; ?>" method="post">

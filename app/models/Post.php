@@ -30,6 +30,13 @@ class Post{
 			return $results;
 		}
 
+		public function getAllPostsFromUser(){
+			$this->db->query('SELECT * FROM books WHERE books_user_id = :books_user_id ORDER BY books_user_id DESC');
+			$this->db->bind(':books_user_id', $_SESSION['user_id']);
+			$results = $this->db->resultSet();
+			return $results;
+		}
+
 		public function addPost($data){
 			$this->db->query('INSERT INTO books (books_user_id, title, author, description, book_condition, book_price)
 							  VALUES (:books_user_id, :title, :author, :description, :book_condition, :book_price)');

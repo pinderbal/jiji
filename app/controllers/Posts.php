@@ -38,10 +38,22 @@
 		}
 
 		public function listings(){
-			$this->view('posts/listings');
+			if(!isset($_SESSION['user_id']) && $post->books_user_id != $_SESSION['user_id']){
+					redirect('index');
+			}
+
+			$post = $this->postModel->getAllPostsFromUser();
+			$data=[
+				'post' => $post
+			];
+
+			$this->view('posts/listings', $data);
 		}
 
 		public function add(){
+			if(!isset($_SESSION['user_id']) && $post->books_user_id != $_SESSION['user_id']){
+				redirect('index');
+			}
 			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 				$data = [
@@ -110,6 +122,9 @@
 		}
 
 		public function edit($id){
+			if(!isset($_SESSION['user_id']) && $post->books_user_id != $_SESSION['user_id']){
+					redirect('index');
+			}
 			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 				$data = [
