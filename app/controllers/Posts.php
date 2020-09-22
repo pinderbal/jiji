@@ -38,8 +38,8 @@
 		}
 
 		public function listings(){
-			if(!isset($_SESSION['user_id']) && $post->books_user_id != $_SESSION['user_id']){
-					redirect('index');
+			if(!isset($_SESSION['user_id'])){
+				redirect('index');
 			}
 
 			$post = $this->postModel->getAllPostsFromUser();
@@ -51,9 +51,10 @@
 		}
 
 		public function add(){
-			if(!isset($_SESSION['user_id']) && $post->books_user_id != $_SESSION['user_id']){
+			if(!isset($_SESSION['user_id'])){
 				redirect('index');
 			}
+
 			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 				$data = [
@@ -122,8 +123,8 @@
 		}
 
 		public function edit($id){
-			if(!isset($_SESSION['user_id']) && $post->books_user_id != $_SESSION['user_id']){
-					redirect('index');
+			if(!isset($_SESSION['user_id'])){
+				redirect(URLROOT);
 			}
 			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -198,6 +199,25 @@
 					'price_error' => ''
 				]; 
 				$this->view('posts/edit', $data);
+			}
+		}
+
+		public function delete($id){
+			if(!isset($_SESSION['user_id'])){
+				redirect(URLROOT);
+			}
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+				//fetch existing post from model
+				$post = $this->postModel->getPostById($id);
+
+				if($this->postModel->deletePost($id)){
+					redirect('posts/listings');
+				}else{
+					die('Something went wrong.');
+				}
+			}else{
+				redirect('listings');
 			}
 		}
 	}

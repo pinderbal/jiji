@@ -4,8 +4,10 @@
 <?php foreach ($data['post'] as $post) :?>
 	<div>
 		<?= $post->title ?>
-		<a href="<?= URLROOT; ?>/posts/edit/<?= $post->id_books ?>">Edit</a>
-		<a href="#">Delete</a>
+		<a href="<?= URLROOT; ?>/posts/edit/<?= $post->id_books ?>" class="btn btn-dark">Edit</a>
+		<form class="pull-right" action=<?= URLROOT; ?>/posts/delete/<?= $post->id_books; ?> method=post>
+			<input type="submit" value="Delete" class="btn btn-danger">
+		</form>
 	</div>
 <?php endforeach ?>
 

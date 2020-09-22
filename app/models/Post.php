@@ -79,4 +79,17 @@ class Post{
 				return false;
 			}
 		}
+
+		public function deletePost($data){
+			$this->db->query('DELETE from books WHERE id_books = :id_books');
+			//bind values
+			$this->db->bind(':id_books', $data);
+
+			// Execute
+			if($this->db->execute()){
+				return true;
+			}else{
+				return false;
+			}
+		}
 	}
