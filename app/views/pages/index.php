@@ -28,6 +28,7 @@
 			<div class="col-md-3 mb-3">
 				<div class="card">
 					<a href="<?= URLROOT ?>/posts/show/<?= $post->id_books?>"><?= $post->title; ?></a>
+					<img src="<?= $post->img_file_name ?>" class= "mb-3" width="100" height="100">
 				</div>
 			</div>
 		<?php endforeach; ?>

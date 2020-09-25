@@ -38,8 +38,8 @@ class Post{
 		}
 
 		public function addPost($data){
-			$this->db->query('INSERT INTO books (books_user_id, title, author, description, book_condition, book_price)
-							  VALUES (:books_user_id, :title, :author, :description, :book_condition, :book_price)');
+			$this->db->query('INSERT INTO books (books_user_id, title, author, description, book_condition, book_price, img_file_name)
+							  VALUES (:books_user_id, :title, :author, :description, :book_condition, :book_price, :img_file_name)');
 			//Bind values
 			$this->db->bind(':books_user_id', $_SESSION['user_id']);
 			$this->db->bind(':title', $data['title']);
@@ -47,6 +47,7 @@ class Post{
 			$this->db->bind(':description', $data['description']);
 			$this->db->bind(':book_condition', $data['condition']);
 			$this->db->bind(':book_price', $data['price']);
+			$this->db->bind(':img_file_name', $data['img']);
 
 			// Execute
 			if($this->db->execute()){

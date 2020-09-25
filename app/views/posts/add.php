@@ -5,7 +5,7 @@
 				<h2>Create a new ad</h2>
 				<p>Please fill all of the following fields: </p>
 				
-				<form action="<?= URLROOT; ?>/posts/add" method="post">
+				<form action="<?= URLROOT; ?>/posts/add" method="post" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="title">Title: <sup>*</sup></label>
 						<input type="text" name="title" class="form-control form-control-lg <?= (!empty($data['title_error'])) ? 'is-invalid' : ''; ?>" value="<?= $data['title']; ?>">
@@ -47,6 +47,12 @@
 						<input type="number" name="price" min="0" step=".50"class="form-control form-control-lg <?= (!empty($data['price_error'])) ? 'is-invalid' : ''; ?>" value="<?= $data['price']; ?>">
 						<span class="invalid-feedback"><?= $data['price_error']; ?></span>
 					</div>	
+					<div class="form-group">
+						<label for="img-upload">Select image to upload: </label>
+						<br>
+						<input type="file" name="img-upload" id="img-upload" class="<?= (!empty($data['img_error'])) ? 'is-invalid' : ''; ?>">
+						<span class="invalid-feedback"><?= $data['img_error']; ?></span>
+					</div>
 					<div class="row">
 						<div class="col">
 							<input type="submit" value="Create Ad" class="btn btn-success btn-block">
