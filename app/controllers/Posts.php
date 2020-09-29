@@ -92,7 +92,7 @@
 				  $data['img_error'] = "Sorry, your image is too large.";
 				  //echo "Sorry, your file is too large.";
 				  $uploadOk = 0;
-				}
+				} 
 
 				// Allow certain file formats
 				if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
@@ -184,12 +184,57 @@
 					'description' => $_POST['description'],
 					'condition' => $_POST['condition'],
 					'price' => $_POST['price'],
+					'img' => '',
 					'title_error' => '',
 					'author_error' => '',
 					'description_error' => '',
 					'condition_error' => '',
-					'price_error' => ''
+					'price_error' => '',
+					'img_error' => '',
 				];
+
+				/******** IMAGE HANDLING  *******/
+				$target_dir = "img/";
+				$target_file = $target_dir . time() . basename($_FILES['img-upload']['name']);
+				$uploadOk = 1;
+				$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+				
+			if(!empty($_FILES['img-upload']['tmp_name'])){
+					$check = getimagesize($_FILES["img-upload"]["tmp_name"]);
+	
+				if($check !== false) {
+				    //echo "File is an image - " . $check["mime"] . ".";
+				    $uploadOk = 1;
+				} else {
+				    //echo "File is not an image.";
+					$uploadOk = 0;
+				}
+
+				// Check file size
+				if ($_FILES["img-upload"]["size"] > 500000) {
+				  $data['img_error'] = "Sorry, your image is too large.";
+				  //echo "Sorry, your file is too large.";
+				  $uploadOk = 0;
+				} 
+
+				// Allow certain file formats
+				if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+				&& $imageFileType != "gif" ) {
+				  $data['img_error'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+				  //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+				  $uploadOk = 0;
+				}
+			}else{
+				
+			}
+				// Check if $uploadOk is set to 0 by an error
+				
+				//$data['img'] = time() . basename($_FILES['img-upload']['name']);
+				
+				if(!empty($_FILES['img-upload']['tmp_name'])){
+					$data['img'] = $target_file;
+				}
+				/**** END OF IMAGE HANDLING ****/
 
 				if (empty($data['title'])){
 					$data['title_error'] = 'Please enter a title.';
@@ -217,7 +262,16 @@
 					$data['price_error'] = 'Please enter a price';
 				}
 
-				if (empty($data['title_error']) && empty($data['author_error']) & empty($data['description_error']) && empty($data['condition_error']) && empty($data['price_error'])){
+				if (empty($data['title_error']) && empty($data['author_error']) & empty($data['description_error']) && empty($data['condition_error']) && empty($data['price_error']) && empty($data['img_error'])){
+					
+					if (!empty($_FILES['img-upload']['tmp_name'])){
+						if (move_uploaded_file($_FILES["img-upload"]["tmp_name"], $target_file)) {
+						   //echo "The file ". basename( $_FILES["img-upload"]["name"]). " has been uploaded.";
+						} else {
+						   $data['img_error'] = "Sorry, there was an error uploading your file.";
+						}
+					}
+
 					if($this->postModel->updatePost($data)){
 						redirect('/posts/listings');
 					}else{
@@ -228,6 +282,7 @@
 					$this->view('posts/edit', $data);
 				}
 			}else{
+				
 				$post = $this->postModel->getPostById($id);
 
 				//check if user is same as post author
