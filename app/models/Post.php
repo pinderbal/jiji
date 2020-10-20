@@ -14,15 +14,16 @@ class Post{
 			return $results;
 		}
 
-		public function getResults($search){
-			$this->db->query('Select * FROM books WHERE id_books = :id');
-			$this->db->bind(':id', $search);
 
+		public function getResults($searchTermBits){
+			$this->db->query('Select * FROM books WHERE ' .implode(' AND ', $searchTermBits) . 'ORDER BY title');
+			// $this->db->bind(':id', $search);
 			$results = $this->db->resultSet();
 			return $results;
 		}
 
 		public function getPostById($search){
+
 			$this->db->query('Select * FROM books WHERE id_books = :id');
 			$this->db->bind(':id', $search);
 

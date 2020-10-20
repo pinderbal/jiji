@@ -2,7 +2,7 @@
 <div class="container ">
 	<div class="row">
 		<div class="col-md-6 mx-auto">
-			<form action="<?= URLROOT; ?>/posts/search" method="post">
+			<form action="<?= URLROOT; ?>/posts/search" method="get">
 				<div class="form-group">
 					<div class="text-center">
 						<img class="mb-3" src="img/logo.png" class="rounded">

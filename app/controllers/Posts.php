@@ -11,11 +11,21 @@
 		}
 
 		public function search(){
-			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			if($_SERVER['REQUEST_METHOD'] == 'GET'){
 				//Sanitize post
-				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-				$search = $_POST['title'];
-				$posts = $this->postModel->getResults($search);
+				$_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+				$search = explode(' ', $_GET['title']);
+
+				$searchTermBits = array();
+				foreach ($search as $term) {
+				    $term = trim($term);
+				    if (!empty($term)) {
+				        $searchTermBits[] = "title LIKE '%$term%'";
+			    	}
+			    }
+
+
+				$posts = $this->postModel->getResults($searchTermBits);
 				$data = [
 					'posts' => $posts
 				];
