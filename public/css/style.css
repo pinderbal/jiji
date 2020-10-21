@@ -1,4 +1,8 @@
-/* Styles for wrapping the search box */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Lato', sans-serif;
+}
 
 .main {
     width: 50%;
@@ -21,4 +25,43 @@
     text-align: center;
     pointer-events: none;
     color: #aaa;
+}
+
+.index-card {
+    width: 200px;
+    height: 200px;
+    border-style: none;
+}
+
+.show-img:hover {
+    transform: scale(1.1);
+}
+
+.book-info {
+    font-size: 1.4em;
+    font-weight: 300;
+}
+
+.emp {
+    font-weight: 400;
+}
+
+@media (max-width: 576px) {
+    .recent-title {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .recent-title {
+        text-align: center;
+    }
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+
 }
