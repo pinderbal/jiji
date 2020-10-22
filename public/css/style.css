@@ -10,7 +10,6 @@ body {
 }
 
 /* Bootstrap 4 text input with search icon */
-
 .has-search .form-control {
     padding-left: 2.375rem;
 }
@@ -46,6 +45,12 @@ body {
     font-weight: 400;
 }
 
+.show-img img {
+    width: 100%;
+    height: auto;
+}
+
+/* Media Queries */
 @media (max-width: 576px) {
     .recent-title {
         text-align: center;

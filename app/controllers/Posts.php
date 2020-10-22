@@ -1,7 +1,7 @@
 <?php
 	class Posts extends Controller{
 
-		//load model
+		// load model
 		public function __construct(){
 			//load model
 			$this->postModel = $this->model('Post');
@@ -10,20 +10,22 @@
 		public function index(){
 		}
 
+		// search 
 		public function search(){
+			//check if GET request
 			if($_SERVER['REQUEST_METHOD'] == 'GET'){
-				//Sanitize post
+				// Sanitize post
 				$_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+				// Take the search and store into array.
 				$search = explode(' ', $_GET['title']);
-
 				$searchTermBits = array();
+				// Store each term in a query array
 				foreach ($search as $term) {
 				    $term = trim($term);
 				    if (!empty($term)) {
 				        $searchTermBits[] = "title LIKE '%$term%'";
 			    	}
 			    }
-
 
 				$posts = $this->postModel->getResults($searchTermBits);
 				$data = [
@@ -35,23 +37,25 @@
 			}
 		}
 
+		// show ad
 		public function show($id){
-				$post = $this->postModel->getPostById($id);
-				//$user = $this->userModel->getUserById($post->user_id);
+			$post = $this->postModel->getPostById($id);
 
-				$data = [
-					'post' => $post,
-					//'user' => $user
-				];
+			$data = [
+				'post' => $post,
+			];
 
-				$this->view('posts/show', $data);
+			$this->view('posts/show', $data);
 		}
 
+		// show listings
 		public function listings(){
+			// if user not logged in redirect to login
 			if(!isset($_SESSION['user_id'])){
-				redirect('index');
+				redirect('users/login');
 			}
 
+			// if user is logged in fetch all posts by user form database
 			$post = $this->postModel->getAllPostsFromUser();
 			$data=[
 				'post' => $post
@@ -60,11 +64,16 @@
 			$this->view('posts/listings', $data);
 		}
 
+		// create ad
 		public function add(){
+			// if user is not logged in redirect to login
 			if(!isset($_SESSION['user_id'])){
-				redirect('index');
+				redirect('users/login');
 			}
+
+			// if user submits 
 			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+				//sanitize
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 				$data = [
 					'title' => $_POST['title'],
@@ -81,26 +90,23 @@
 					'img_error' => ''
 				];
 
-				/******** IMAGE HANDLING  *******/
+				// Image handling
 				$target_dir = "img/";
 				$target_file = $target_dir . time() . basename($_FILES['img-upload']['name']);
 				$uploadOk = 1;
 				$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 				
 			if(!empty($_FILES['img-upload']['tmp_name'])){
-					$check = getimagesize($_FILES["img-upload"]["tmp_name"]);
+				$check = getimagesize($_FILES["img-upload"]["tmp_name"]);
 	
 				if($check !== false) {
-				    //echo "File is an image - " . $check["mime"] . ".";
 				    $uploadOk = 1;
 				} else {
-				    //echo "File is not an image.";
 					$uploadOk = 0;
 				}
 				// Check file size
 				if ($_FILES["img-upload"]["size"] > 500000) {
 				  $data['img_error'] = "Sorry, your image is too large.";
-				  //echo "Sorry, your file is too large.";
 				  $uploadOk = 0;
 				} 
 
@@ -108,19 +114,14 @@
 				if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 				&& $imageFileType != "gif" ) {
 				  $data['img_error'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-				  //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
 				  $uploadOk = 0;
 				}
 			}else{
 				$data['img_error'] = "Please upload a picture";
 			}
-				// Check if $uploadOk is set to 0 by an error
-				
-				//$data['img'] = time() . basename($_FILES['img-upload']['name']);
 				$data['img'] = $target_file;
-				/**** END OF IMAGE HANDLING ****/
 
-
+				// validation
 				if (empty($data['title'])){
 					$data['title_error'] = 'Please enter a title.';
 				}elseif(strlen($data['title']) < 6) {
@@ -147,10 +148,10 @@
 					$data['price_error'] = 'Please enter a price';
 				}
 
+				// Once there are no errors
 				if (empty($data['title_error']) && empty($data['author_error']) & empty($data['description_error']) && empty($data['condition_error']) && empty($data['price_error']) && empty($data['img_error'])){
 
 					if (move_uploaded_file($_FILES["img-upload"]["tmp_name"], $target_file)) {
-					   //echo "The file ". basename( $_FILES["img-upload"]["name"]). " has been uploaded.";
 					} else {
 					   $data['img_error'] = "Sorry, there was an error uploading your file.";
 					}
@@ -181,11 +182,16 @@
 			}
 		}
 
+		// update an ad
 		public function edit($id){
+			// if user is not logged in
 			if(!isset($_SESSION['user_id'])){
-				redirect(URLROOT);
+				redirect(users/login);
 			}
+
+			// check to see if user submits
 			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+				// sanitize
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 				$data = [
 					'id_books' => $id,
@@ -203,7 +209,7 @@
 					'img_error' => '',
 				];
 
-				/******** IMAGE HANDLING  *******/
+				// Image handling
 				$target_dir = "img/";
 				$target_file = $target_dir . time() . basename($_FILES['img-upload']['name']);
 				$uploadOk = 1;
@@ -213,17 +219,14 @@
 					$check = getimagesize($_FILES["img-upload"]["tmp_name"]);
 	
 				if($check !== false) {
-				    //echo "File is an image - " . $check["mime"] . ".";
 				    $uploadOk = 1;
 				} else {
-				    //echo "File is not an image.";
 					$uploadOk = 0;
 				}
 
 				// Check file size
 				if ($_FILES["img-upload"]["size"] > 500000) {
 				  $data['img_error'] = "Sorry, your image is too large.";
-				  //echo "Sorry, your file is too large.";
 				  $uploadOk = 0;
 				} 
 
@@ -231,20 +234,15 @@
 				if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 				&& $imageFileType != "gif" ) {
 				  $data['img_error'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-				  //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
 				  $uploadOk = 0;
 				}
 			}else{
 				
 			}
-				// Check if $uploadOk is set to 0 by an error
-				
-				//$data['img'] = time() . basename($_FILES['img-upload']['name']);
-				
+				// Validation
 				if(!empty($_FILES['img-upload']['tmp_name'])){
 					$data['img'] = $target_file;
 				}
-				/**** END OF IMAGE HANDLING ****/
 
 				if (empty($data['title'])){
 					$data['title_error'] = 'Please enter a title.';
@@ -272,11 +270,11 @@
 					$data['price_error'] = 'Please enter a price';
 				}
 
+				// Once there are no errors
 				if (empty($data['title_error']) && empty($data['author_error']) & empty($data['description_error']) && empty($data['condition_error']) && empty($data['price_error']) && empty($data['img_error'])){
 					
 					if (!empty($_FILES['img-upload']['tmp_name'])){
 						if (move_uploaded_file($_FILES["img-upload"]["tmp_name"], $target_file)) {
-						   //echo "The file ". basename( $_FILES["img-upload"]["name"]). " has been uploaded.";
 						} else {
 						   $data['img_error'] = "Sorry, there was an error uploading your file.";
 						}
@@ -300,6 +298,7 @@
 					redirect('index');
 				}
 
+				// load view with proper data
 				$data = [
 					'id_books' => $post->id_books,
 					'title' => $post->title,
@@ -316,9 +315,11 @@
 			}
 		}
 
+		// delete ad
 		public function delete($id){
+			// check if user is logged in
 			if(!isset($_SESSION['user_id'])){
-				redirect(URLROOT);
+				redirect(users/login);
 			}
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
 

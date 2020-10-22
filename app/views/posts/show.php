@@ -1,8 +1,8 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 
 <div class="row">
-	<div class="col col-sm-12 col-md-6 border">
-		<img src="<?= URLROOT; ?>/<?= $data['post']->img_file_name; ?>" class="img-fluid show-img mb-3">
+	<div class="col col-sm-12 col-md-6 show-img">
+		<img src="<?= URLROOT; ?>/<?= $data['post']->img_file_name; ?>" class="img-fluid mb-3">
 	</div>
 	<div class="col-sm-12 col-md-6">
 		<div class="book-info">

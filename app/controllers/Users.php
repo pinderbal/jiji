@@ -1,33 +1,18 @@
 <?php
 	class Users extends Controller{
 
-		//load model
 		public function __construct(){
 			//load model
 			$this->userModel = $this->model('User');
 		}
 
-		// public function login(){
-		// 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
-		// 	}else{
-		// 		// Init data
-		// 		$data = [
-		// 			'email' => '',
-		// 			'password' => '',
-		// 			'email_error' => '',
-		// 			'password_error' => ''
-		// 		];
-
-		// 		//Load view
-		// 		$this->view('users/login', $data);
-		// 	}
-		// }
-
+		// register user
 		public function register(){
+			// check if user submits
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
-				
+				//sanitize 
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
+				//store data
 				$data = [
 					'name' => $_POST['name'],
 					'email' => $_POST['email'],
@@ -39,12 +24,17 @@
 					'confirm_password_error' => ''
 				];
 
+				//validation
 				if (empty($data['name'])){
 					$data['name_error'] = 'Please enter your name.';
 				}
 
 				if (empty($data['email'])){
 					$data['email_error'] = 'Please enter your email.';
+				}else{
+					if($this->userModel->getUserByEmail($data['email'])){
+						$data['email_error'] = 'Email is already taken';
+					}
 				}
 
 				if (empty($data['password'])){
@@ -89,8 +79,11 @@
 			}
 		}
 
+		// user login
 		public function login(){
+			// check if user submits
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				// sanititze
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 				$data = [
 					'email' => $_POST['email'],
@@ -99,6 +92,8 @@
 					'password_error' => '',
 				];
 
+
+				//validation
 				if(empty($data['email'])){
 					$data['email_error'] = "Please enter your email.";
 				}
@@ -141,6 +136,7 @@
 			}
 		}
 
+		// create session
 		public function createUserSession($user){
 			$_SESSION['user_id'] = $user->id_users;
 			$_SESSION['user_name'] = $user->name;
@@ -148,6 +144,7 @@
 			redirect('pages');
 		}
 
+		// logout user
 		public function logout(){
 			unset($_SESSION['user_id']);
 			unset($_SESSION['user_name']);

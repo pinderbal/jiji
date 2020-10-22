@@ -12,9 +12,6 @@
 					    <span class="fa fa-search form-control-feedback"></span>
 					    <input type="text" name="title" class="form-control" placeholder="Search for a book">
 					 </div>
-
-					<!-- <input type="text" name="title" class="form-control" placeholder="Search for a book" value="">
-					<span class="invalid-feedback"></span> -->
 				</div>	
 			</form>
 		</div>
