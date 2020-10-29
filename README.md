@@ -26,4 +26,7 @@
 My project uses the following open source packages:
 - [Bootstrap](https://getbootstrap.com/)
 
+<hr>
 <a href="https://pinderbal.ca/jiji">Click here to check it out</a>
+<br>
+<a href="https://pinderbal.ca/">My Portfolio</a>
