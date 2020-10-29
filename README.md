@@ -12,7 +12,7 @@
 * See recently added books
 * Register an account
 * Login to account (sessions)
-* Create, Read, Update, Delete (CRUD) a book posting
+* Create, Read, Update, Delete a book posting (CRUD)
 
 ## Coded Using
 * Html
