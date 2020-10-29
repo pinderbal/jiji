@@ -7,7 +7,7 @@
 <a href="https://pinderbal.ca/jiji">![screenshot](jiji-demo.gif?raw=true)</a>
 
 ## Key Features
-Responsive Design
+Responsive design
 * Search books
 * See recently added books
 * Register an account
