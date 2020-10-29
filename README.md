@@ -13,6 +13,7 @@ Responsive design
 * Register an account
 * Login to account (sessions)
 * Create, Read, Update, Delete a book posting (CRUD)
+* MVC
 
 ## Coded Using
 * Html
@@ -25,6 +26,7 @@ Responsive design
 ## Credits
 My project uses the following open source packages:
 - [Bootstrap](https://getbootstrap.com/)
+- [MVC Framework](https://github.com/bradtraversy)
 
 <hr>
 <a href="https://pinderbal.ca/jiji">Click here to check it out</a>
